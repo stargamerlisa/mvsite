@@ -18,12 +18,12 @@
 
     #music-player {
       position: relative;
-      width: 60%; /* 60% of the viewport width */
+      width: 75%; /* 75% of the viewport width */
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Drop shadow */
     }
 
     #music-video {
-      width: 100%;
+      width: 115%; /* 15% bigger than the parent container */
       height: auto;
       cursor: pointer;
     }
@@ -55,8 +55,8 @@
     }
 
     .control-button img {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
     }
 
     .control-button:hover {
@@ -66,7 +66,7 @@
 </head>
 <body>
   <div id="music-player">
-    <video id="music-video" autoplay muted>
+    <video id="music-video" muted>
       <source src="https://gd.haydenvhs.workers.dev/download.aspx?file=duOLh3tBjpv9ECUcCR9K1kRVe17zLXHyYrfKwO6IXxSfOi4wBqk5J%2B1KDTMEBjSz&expiry=vwpJXGBMrmoDNwcU1NNAcg%3D%3D&mac=11068d607bc3182c95bf4a5dcd44d9debd56ef3849dcee9d5d46a23b105a934b" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -124,10 +124,13 @@
     // Add click event listener to video player for play/pause functionality
     document.getElementById('music-video').addEventListener('click', togglePlayPause);
 
-    // Update button icons on initial load
+    // Pause video and unmute sound when the page loads
     window.onload = function() {
-      updateMuteButton();
+      var video = document.getElementById('music-video');
+      video.pause();
+      video.muted = false;
       updatePauseButton();
+      updateMuteButton();
     };
   </script>
 </body>

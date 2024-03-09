@@ -4,26 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Video Player</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #music-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    #mute-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <video id="music-video" autoplay muted>
-    <source src="https://lesseraf.im/0:/BLACKPINK/BLACKPINK%20-%20As%20If%20Its%20Your%20Last%20%28Bugs%21%29.mp4" type="video/mp4">
+    <source src="YOUR_GOOGLE_DRIVE_VIDEO_URL" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
-  <script>
-    // Mute the video to prevent autoplay issues
-    document.getElementById('music-video').muted = false;
+  <button id="mute-button">Mute</button>
 
-    // Function to unmute and autoplay the video
-    function playVideo() {
+  <script>
+    // Function to toggle mute/unmute
+    function toggleMute() {
       var video = document.getElementById('music-video');
-      video.muted = false;
-      video.play();
+      if (video.muted) {
+        video.muted = false; // Unmute the video
+        document.getElementById('mute-button').textContent = 'Mute';
+      } else {
+        video.muted = true; // Mute the video
+        document.getElementById('mute-button').textContent = 'Unmute';
+      }
     }
 
+    // Add click event listener to the mute button
+    document.getElementById('mute-button').addEventListener('click', toggleMute);
+
     // Automatically play the video when the page loads
-    window.onload = playVideo;
+    window.onload = function() {
+      var video = document.getElementById('music-video');
+      video.play();
+    };
   </script>
 </body>
 </html>

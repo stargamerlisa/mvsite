@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Video Player</title>
+</head>
+<body>
+  <video id="music-video" autoplay muted>
+    <source src="https://lesseraf.im/0:/BLACKPINK/BLACKPINK%20-%20As%20If%20Its%20Your%20Last%20%28Bugs%21%29.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    // Mute the video to prevent autoplay issues
+    document.getElementById('music-video').muted = true;
+
+    // Function to unmute and autoplay the video
+    function playVideo() {
+      var video = document.getElementById('music-video');
+      video.muted = false;
+      video.play();
+    }
+
+    // Automatically play the video when the page loads
+    window.onload = playVideo;
+  </script>
+</body>
+</html>

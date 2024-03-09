@@ -16,78 +16,113 @@
       align-items: center; /* Align items to the center */
     }
 
-    #music-video {
+    #music-player {
+      position: relative;
       width: 60%; /* 60% of the viewport width */
-      object-fit: contain;
-      margin-bottom: 50px; /* 50 pixels away from the bottom */
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Drop shadow */
     }
 
-    .control-button {
-      position: absolute;
-      background-color: rgba(255, 255, 255, 0.7);
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
+    #music-video {
+      width: 100%;
+      height: auto;
       cursor: pointer;
     }
 
-    #mute-button {
-      top: 10px;
-      right: 10px;
+    .player-controls {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    #pause-button {
-      top: 10px;
-      left: 10px;
+    #music-player:hover .player-controls {
+      opacity: 1;
+    }
+
+    .control-button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      margin: 0 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .control-button:hover {
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
-  <video id="music-video" autoplay muted>
-    <source src="https://gd.haydenvhs.workers.dev/download.aspx?file=duOLh3tBjpv9ECUcCR9K1kRVe17zLXHyYrfKwO6IXxSfOi4wBqk5J%2B1KDTMEBjSz&expiry=vwpJXGBMrmoDNwcU1NNAcg%3D%3D&mac=11068d607bc3182c95bf4a5dcd44d9debd56ef3849dcee9d5d46a23b105a934b" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <button id="mute-button" class="control-button">Mute</button>
-  <button id="pause-button" class="control-button">Pause</button>
+  <div id="music-player">
+    <video id="music-video" autoplay muted>
+      <source src="https://gd.haydenvhs.workers.dev/download.aspx?file=duOLh3tBjpv9ECUcCR9K1kRVe17zLXHyYrfKwO6IXxSfOi4wBqk5J%2B1KDTMEBjSz&expiry=vwpJXGBMrmoDNwcU1NNAcg%3D%3D&mac=11068d607bc3182c95bf4a5dcd44d9debd56ef3849dcee9d5d46a23b105a934b" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="player-controls">
+      <button id="mute-button" class="control-button">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/speaker-off.png"/>
+      </button>
+      <button id="pause-button" class="control-button">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/pause--v1.png"/>
+      </button>
+    </div>
+  </div>
 
   <script>
-    // Function to toggle mute/unmute
+    // Toggle mute/unmute
     function toggleMute() {
       var video = document.getElementById('music-video');
-      if (video.muted) {
-        video.muted = false; // Unmute the video
-        document.getElementById('mute-button').textContent = 'Mute';
-      } else {
-        video.muted = true; // Mute the video
-        document.getElementById('mute-button').textContent = 'Unmute';
-      }
+      video.muted = !video.muted;
+      updateMuteButton();
     }
 
-    // Function to pause/play the video
-    function togglePause() {
+    // Update mute button icon
+    function updateMuteButton() {
+      var video = document.getElementById('music-video');
+      var muteButton = document.getElementById('mute-button');
+      muteButton.innerHTML = video.muted ?
+        '<img src="https://img.icons8.com/ios-filled/50/ffffff/speaker-off.png"/>' :
+        '<img src="https://img.icons8.com/ios-filled/50/ffffff/speaker.png"/>';
+    }
+
+    // Toggle play/pause
+    function togglePlayPause() {
       var video = document.getElementById('music-video');
       if (video.paused) {
-        video.play(); // Play the video
-        document.getElementById('pause-button').textContent = 'Pause';
+        video.play();
       } else {
-        video.pause(); // Pause the video
-        document.getElementById('pause-button').textContent = 'Play';
+        video.pause();
       }
+      updatePauseButton();
     }
 
-    // Add click event listeners to the mute and pause buttons
-    document.getElementById('mute-button').addEventListener('click', toggleMute);
-    document.getElementById('pause-button').addEventListener('click', togglePause);
-
-    // Check the initial muted state of the video and update the mute button text accordingly
-    window.onload = function() {
+    // Update pause button icon
+    function updatePauseButton() {
       var video = document.getElementById('music-video');
-      if (video.muted) {
-        document.getElementById('mute-button').textContent = 'Unmute';
-      }
-      video.play(); // Automatically play the video when the page loads
+      var pauseButton = document.getElementById('pause-button');
+      pauseButton.innerHTML = video.paused ?
+        '<img src="https://img.icons8.com/ios-filled/50/ffffff/play.png"/>' :
+        '<img src="https://img.icons8.com/ios-filled/50/ffffff/pause--v1.png"/>';
+    }
+
+    // Add click event listeners to mute and pause buttons
+    document.getElementById('mute-button').addEventListener('click', toggleMute);
+    document.getElementById('pause-button').addEventListener('click', togglePlayPause);
+
+    // Add click event listener to video player for play/pause functionality
+    document.getElementById('music-video').addEventListener('click', togglePlayPause);
+
+    // Update button icons on initial load
+    window.onload = function() {
+      updateMuteButton();
+      updatePauseButton();
     };
   </script>
 </body>
